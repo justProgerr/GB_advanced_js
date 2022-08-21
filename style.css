@@ -1,0 +1,45 @@
+.container {
+    max-width: 1500px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  header {
+    padding: 25px 0;
+    background-color: #003153;
+  }
+  
+  .cart-button {
+    text-align:center; 
+    padding:10px 20px; 
+    border:solid 3px #004F72; 
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px; 
+    border-radius: 10px; 
+    font:18px Arial, Helvetica, sans-serif; 
+    font-weight:bold; 
+    color:#ffffff; 
+    background-color:#3BA4C7; 
+    background-image: -moz-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+    background-image: -webkit-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+    background-image: -o-linear-gradient(top, #3BA4C7 0%, #1982A5 100%); 
+    background-image: -ms-linear-gradient(top, #3BA4C7 0% ,#1982A5 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1982A5', endColorstr='#1982A5',GradientType=0 ); 
+    background-image: linear-gradient(top, #3BA4C7 0% ,#1982A5 100%);   
+      
+    text-shadow: 3px -1px 5px #171313; 
+    filter: dropshadow(color=#171313, offx=3, offy=-1); 
+  }
+  
+  .goods-list {
+    background-color: #f5f5f5;
+    padding: 15px 25px;
+  }
+  
+  .goods-item {
+    padding: 10px;
+  }
+  
+  .goods-item + .goods-item {
+    border-top: 1px solid #fff;
+  }
