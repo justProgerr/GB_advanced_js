@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Урок 2. Задание 3</h1>
+
+  <p>
+    Я решил не смешивать проекты, и сделать отдельный документ для выполнения задания 3 
+  </p>
+
+  <script>
+    class Hamburger {
+      constructor(size, stuffing) {
+        this.size = size;
+        this.stuffing = stuffing;
+        this.toppingList = [];
+        this.price = 0;
+        this.calories = 0;
+
+        this.sizes = [
+          {size: 'small', price: 50, calories: 20},
+          {size: 'big', price: 100, calories: 40}
+        ];
+
+        this.stuffings = [
+          {stuffing: 'cheese', price: 10, calories: 20},
+          {stuffing: 'salad', price: 20, calories: 5},
+          {stuffing: 'potato', price: 15, calories: 10},
+        ];
+
+        this.toppings = [
+          {topping: 'seasoning', price: 15, calories: 0},
+          {topping: 'mayonnaise', price: 20, calories: 5}
+        ];
+      }
+    
+      addTopping(topping) { 
+        let order = this.toppings.find(item => item.topping === topping);
+        let hasTopping = this.toppingList.find(item => item.topping === topping);
+
+        // Проверяем есть ли заказанная добавка в нашем списке
+        if (!order) {
+          console.log('В нашем меню нет такой добавки, выберите из того что ' + 
+          'есть у нас');
+          return;
+        }
+
+        // Проверяем заказывал ли уже клиент такую добавку
+        if (hasTopping) {
+          console.log('Вы уже добавляли эту добавку');
+          return;
+        }
+
+        // Если две проверки были успешными, то добавляем добавку в список
+        this.toppingList.push(order);
+        console.log('Добавка добавлена');
+      }
+    
+      removeTopping(topping) { 
+        let hasTopping = this.toppingList.find(item => item.topping === topping);
+        let id = null;
+
+        // Проверяем есть ли такая добавка в списке добавок, если такой нет
+        // то  сообщаем об этом.
+        if (!hasTopping) {
+          console.log('Такой добавки нет в списке ваших добавок');
+          return;
+        }
+
+        // если такая добавка есть в списке, то находим её id чтобы удалить из
+        // массива
+        id = this.toppingList.indexOf(hasTopping);
+        this.toppingList.splice(id, ++id);
+        console.log('Добавка удалена');
+      }
+
+      getToppings() { 
+        // если список добавок пуст, то говорим об этом пользователю
+        if (!this.toppingList.length) {
+          console.log('Ваш список добавок пуст');
+          return;
+        }
+        
+        this.toppingList.forEach(item => console.log(item.topping));
+      }
+
+      getSize() { 
+        console.log(this.size);
+      }
+
+      getStuffing() { 
+        console.log(this.stuffing);
+      }
+
+      calculatePrice() { 
+        let sizePrice = this.sizes.find(item => item.size === this.size).price;
+        let stuffingPrice = this.stuffings
+        .find(item => item.stuffing === this.stuffing).price;
+        let toppingsPrice = this.toppingList
+        .reduce((sum, item) => sum + item.price, 0);
+        
+        this.price = sizePrice + stuffingPrice + toppingsPrice;
+
+        console.log(`Вы закали гамбургер на сумму ${this.price} рублей`);
+      }
+
+      calculateCalories() { 
+        let sizeCalor = this.sizes.find(item => item.size === this.size).calories;
+        let stuffingCalor = this.stuffings
+        .find(item => item.stuffing === this.stuffing).calories;
+        let toppingsCalor = this.toppingList
+        .reduce((sum, item) => sum + item.calories, 0);
+        
+        this.calories = sizeCalor + stuffingCalor + toppingsCalor;
+
+        console.log(`Заказанный вами гамбургер, имеет ${this.calories} калорий`);
+      }
+   }
+
+   const hamb1 = new Hamburger('big', 'cheese'); 
+
+   hamb1.getToppings();
+   hamb1.addTopping();
+   hamb1.addTopping('seasoning');
+   hamb1.getToppings();
+   hamb1.addTopping('seasoning');
+   hamb1.addTopping('mayonnaise');
+   hamb1.getToppings();
+   hamb1.removeTopping('seasoning');
+   hamb1.getToppings();
+   hamb1.removeTopping('seasoning');
+   hamb1.getToppings();
+   hamb1.removeTopping('mayonnaise');
+   hamb1.getToppings();
+   hamb1.getSize();
+   hamb1.getStuffing();
+   hamb1.calculatePrice()
+   hamb1.addTopping('mayonnaise');
+   hamb1.calculatePrice();
+   hamb1.calculateCalories();
+  </script>
+</body>
+</html>
