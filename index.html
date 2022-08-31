@@ -6,16 +6,31 @@
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-   <div class="container">
-      <button class="cart-button" type="button">Корзина</button>
+<header class="header">
+   <div class="container container--flex">
+      <a href="#" class="header__link">Каталог</a>
+      <a href="#" class="header__link" id="cartLink">Корзина</a>
+   </div>
+   <div class="cart__list hidden">
+      Корзина пуста
    </div>
 </header>
 <main>
    <div class="container">
-      <div class="goods-list"></div>
+      <div class="catalog__list"></div>
    </div>
 </main>
 <script src="myJs.js"></script>
+<script>
+   let header = document.querySelector('.header');
+   let cartList = document.querySelector('.cart__list');
+   let cartLink = document.getElementById('cartLink');
+
+   cartList.style.top = header.offsetHeight + 'px';
+
+   cartLink.addEventListener('click', () => {
+      cartList.classList.toggle('hidden');
+   });
+</script>
 </body>
 </html>

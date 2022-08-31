@@ -1,49 +1,48 @@
-class GoodsItem {
-    constructor(title, price) {
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
+class CatalogItem {
+    constructor(goodId, title = 'Наименование товара', price = 'Стоимость уточняйте на сайте') {
+        this.goodId = goodId;
         this.title = title;
         this.price = price;
     }
 
     render() {
         return `
-        <div class="goods-item">
-            <h3>${this.title}</h3>
-            <p>${this.price}</p>
-        </div>`;
+            <div class="catalog__item" data-good-id ='${this.goodId}' >
+                <h3>${this.title}</h3>
+                <p>${this.price}</p>
+                <button> Купить </button>
+            </div>
+        `;
     }
 }
 
-class GoodsList {
+class CatalogList {
     constructor() {
-        this.goods= [];
+        this.goods = null;
+        this.container = document.querySelector('.catalog__list');
     }
 
     fetchGoods() {
-        this.goods = [
-            { title: 'Shirt', price: 150 },
-            { title: 'Socks', price: 50 },
-            { title: 'Jacket', price: 350 },
-            { title: 'Shoes', price: 250 },
-        ]
+        return fetch(`${API_URL}/catalogData.json`)
+            .then( response => response.json() )
+            .then( goods => this.goods = goods);
     }
 
     render() {
         let listHtml = '';
         this.goods.forEach(good => {
-            const goodItem = new GoodsItem(good.title, good.price);
+            const goodItem = new CatalogItem(good.id_product, good.product_name, good.price);
             listHtml += goodItem.render();
         })
-        document.querySelector('.goods-list').innerHTML = listHtml;
+        this.container.innerHTML = listHtml;
     }
 
-    /**
-     * 
-     * @returns Возвращает общую сумму товаров.
-     */
     getTotalSum() {
         if (!this.goods) {
             document.querySelector('.goods-list')
-            .after('Не могу посчитать сумму, товаров нет.')
+            .after('Товаров нет.')
             return;
         }
 
@@ -53,42 +52,99 @@ class GoodsList {
     }
 }
 
-class BasketGoodsItem {
-    /*
-    constructor(title, price, count, total) {
-        Наверно здесь можно наследоваться от класса GoodsItem свойства title и price
-        остальные свойство будут только те, которые относятся к этому классу
-        
+class CartItem {
+    constructor(goodId, title, quantity, price) {
+        this.goodId = goodId;
+        this.title = title;
+        this.quantity = quantity;
+        this.price = price; 
     }
-    */
-
-    /*
-        Думаю здесь должны быть следующие методы:
-
-        render() -- Генерирует разметку html для одной позиции товара
-    */
+    
+    render() {
+        return `
+            <tr class="cart__item" data-good-id='${this.goodId}'>
+                <td class="cart__title">${this.title}</td>
+                <td class="cart__price">${this.price}</td>
+                <td class="cart__quantity">${this.quantity} </td>
+                <td class="cart__total-price">${this.price * this.quantity}</td>
+                <td><button>+</button></td>
+                <td><button>-</button></td>
+            </tr>
+        `;
+    }
 }
 
-class BasketGoodsList {
+class CartList {
     constructor() {
-        this.basketList = []; // Здесь будет список добавленных в корзину товаров
+        this.goodList = null;
+        this.amount = 0;
+        this.countGoods = 0;
+        this.container = document.querySelector('.cart__list');
     }
 
-    /*
-        Здесь должны быть слудующие методы:
+    getCart() {
+        return fetch(`${API_URL}/getBasket.json`)
+            .then( result => result.json() )
+            .then( goods => {
+                this.amount = goods.amount;
+                this.countGoods = goods.countGoods;
+                this.goodList = goods.contents;
+            });
+    }
+    
+    addGood() {
 
-        addGood() -- Добавляет товар в список товаров в корзине
+    }
+
+    removeGood() {
+
+    }
+
+    render() {
+        let table = document.createElement('table');
+        let caption = `
+            <tr>
+                <th>Наименование</th>
+                <th>Цена за шт.</th>
+                <th>Шт.</th>
+                <th>Общая цена</th>
+                <th>Добавить</th>
+                <th>Убрать</th>
+            </tr>
+        `;
+        table.innerHTML = (caption);
+        this.container.innerHTML = '';
         
-        removeGood() -- Удаляет товар из корзины
+        this.goodList.forEach(good => {
+            let tr = new CartItem(good.id_product, good.product_name, good.quantity, good.price);
+            table.insertAdjacentHTML('beforeend', tr.render());
+        });
 
-        предыдущие два метода, должны при срабатывании сразу рассчитвыать итоговую сумму.
+        let totals = `
+            <p>
+                Всего товаров в корзине: ${this.countGoods}:
+            </p>
+            <p>
+                Общая сумма: ${this.amount}.
+            </p>
+        `;
 
-        render() -- Генерирует список товаров добавленных в корзину
-        с подсчитанным колличеством и суммой
-    */
+        this.container.append(table);
+        table.insertAdjacentHTML('afterend', totals);
+    }
 }
 
-let goodsList1 = new GoodsList();
-goodsList1.fetchGoods();
-goodsList1.render();
-goodsList1.getTotalSum();
+let catalogList = new CatalogList();
+let cart = new CartList();
+
+catalogList.fetchGoods()
+    .then(() => catalogList.render());
+
+cart.getCart()
+.then(() => cart.render());
+    
+
+
+
+// goodsList1.render();
+// goodsList1.getTotalSum();
