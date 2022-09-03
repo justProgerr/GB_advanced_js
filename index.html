@@ -1,36 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
    <meta charset="UTF-8">
    <title>eShop</title>
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="header">
-   <div class="container container--flex">
-      <a href="#" class="header__link">Каталог</a>
-      <a href="#" class="header__link" id="cartLink">Корзина</a>
-   </div>
-   <div class="cart__list hidden">
-      Корзина пуста
-   </div>
-</header>
-<main>
-   <div class="container">
-      <div class="catalog__list"></div>
-   </div>
-</main>
-<script src="myJs.js"></script>
-<script>
-   let header = document.querySelector('.header');
-   let cartList = document.querySelector('.cart__list');
-   let cartLink = document.getElementById('cartLink');
+   <header class="header">
+      <div class="container container--flex">
+         <a href="" class="header__link">Каталог</a>
+         <input type="search" class="header__search">
+         <a href="" class="header__link" id="cartShow">Корзина</a>
+      </div>
 
-   cartList.style.top = header.offsetHeight + 'px';
-
-   cartLink.addEventListener('click', () => {
-      cartList.classList.toggle('hidden');
-   });
-</script>
+      <div class="cart hidden">
+         <ul class="cart__list">
+            
+         </ul>
+      </div>
+   </header>
+   <main>
+      <ul class="catalog container container--flex">
+         
+      </ul>
+   </main>
+   <script src="myJs.js"></script>
 </body>
 </html>
