@@ -10,6 +10,10 @@
       margin: 15px 0;
     }
 
+    input {
+      outline:none;
+    }
+
     .bg-error {
       border: 2px solid red;
     }
@@ -43,12 +47,12 @@
   <div id="lesson3">
     <h3>Задание 3</h3>
     <form action="" id="form">
-      <label for="form_name">Имя: <input type="text" id="form_name"></label> <br>
-      <label for="form_tel">Телефон: <input type="tel" id="form_tel"></label> <br>
-      <label for="form_email">Email: <input type="email" id="form_email"></label> <br>
+      <label for="form_name">Имя: <input type="text" id="form_name"><span></span></label>  <br>
+      <label for="form_tel">Телефон: <input type="tel" id="form_tel"><span></span></label>  <br>
+      <label for="form_email">Email: <input type="email" id="form_email"><span></span></label>  <br>
       Ваше тайное послание: <br>
       <textarea id="form_textarea"></textarea> <br>
-      <input type="submit" value="Отправить" id="form_btn">
+      <input type="submit" value="Отправить">
 
 
     </form>
@@ -59,25 +63,102 @@
 
     document.getElementById('lesson1-2').append(text);
 
-    let form = document.getElementById('form');
-    let formName = document.getElementById('form_name');
-    let formTel = document.getElementById('form_tel');
-    let formEmail = document.getElementById('form_email');
-    let formTextArea = document.getElementById('form_textarea');
-    let formBtn = document.getElementById('form_btn');
-
-    formBtn.addEventListener('click', (ev) => {
-      ev.preventDefault();
-
-      if (!/[a-z]/.test(formName) ) {
-        formName.classList.add('bg-error');
+    class Validator {
+       constructor(container) {
+        this.container = container; // саму элемент самой формы
+        this.succes = null; // В свойстве succes будет храниться булево значение, сообщающее нам о правильности заполнения формы
+        this.errMessages = {
+          text: 'В поле "name" можно вводить только буквы',
+          tel: 'В поле "tel" используется запись в формате +7(000)000-0000',
+          email: 'В поле "emeil" используется запись в формате ivanov@mail.ru',
+        }
       }
 
-      form.addEventListener('input', () => {
-        
-      })
-    })
+      // Метод проверяет поле name. В случае ошибки, возвращает false и делает красную рамку
+      checkName(nameEl) {
+        if ( /^[a-zа-яё]+$/i.test(nameEl.value) ) {
+          nameEl.classList.remove('bg-error');
+          nameEl.nextSibling.innerHTML = '';
+          return true;
+        } else {
+          nameEl.classList.add('bg-error');
+          nameEl.nextSibling.innerHTML = this.errMessages[nameEl.type];
+          return false;
+        }
+      }
 
+      // Метод проверяет поле tel. В случае ошибки, возвращает false и делает красную рамку
+      checkTel(telEl) {
+        if ( /^\+7\(\d{3}\)\d{3}-\d{4}$/.test(telEl.value) ){
+          telEl.classList.remove('bg-error');
+          telEl.nextSibling.innerHTML = '';
+          return true;
+        } else {
+          telEl.classList.add('bg-error');
+          telEl.nextSibling.innerHTML = this.errMessages[telEl.type];
+          return false;
+        }
+      }
+
+      // Метод проверяет поле email. В случае ошибки, возвращает false и делает красную рамку
+      checkEmail(emailEl) {
+        if ( /^[a-z0-9_-]{4,20}@[a-z]{2,5}\.[a-z]{2,3}$/i.test(emailEl.value) ) {
+          emailEl.classList.remove('bg-error');
+          emailEl.nextSibling.innerHTML = '';
+          return true;
+        } else {
+          emailEl.classList.add('bg-error');
+          emailEl.nextSibling.innerHTML = this.errMessages[emailEl.type];
+          return false;
+        }
+      }
+
+      // Метод запускает событие, которое при каждом изменении проверяет форму на корректность. В зависимости от результата, меняет значение this.succes
+      checkForm(nameEl, telEl, emailEl) {
+        let form = document.getElementById(this.container);
+
+        this.checkName(nameEl);
+        this.checkTel(telEl);
+        this.checkEmail(emailEl);
+
+        form.addEventListener('input', () => {
+          let name = this.checkName(nameEl);
+          let tel = this.checkTel(telEl);
+          let email = this.checkEmail(emailEl);
+
+          if (name && tel && email) {
+            this.succes = true;
+          } else {
+            this.succes = false;
+          }
+        });
+      }
+
+      // Метод запускает валидацию при нажатии на кнопку отправки формы. Взависимоти от корректности всех заполненных форм,выводит сообщение о результате
+      init() {
+        let form = document.getElementById(this.container);
+        let submit = form.querySelector('input[type="submit"]');
+
+        submit.addEventListener('click', (ev) => {
+          ev.preventDefault();
+
+          let name = document.getElementById('form_name');
+          let tel = document.getElementById('form_tel');
+          let email = document.getElementById('form_email');
+
+          this.checkForm(name, tel, email);
+
+          if (!this.succes) {
+            console.log('Данные заполнены не корректно. Форма не отправлена');
+          } else {
+            console.log('Данные заполнены верно. Форма отправлена.');
+          }
+        })
+      }
+    }
+    
+    let validator = new Validator('form');
+    validator.init();
   </script>
 </body>
 </html>
