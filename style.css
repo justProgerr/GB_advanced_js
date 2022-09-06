@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 250px;
+}
+
+main {
+  padding: 30px 0;
+}
+
+.container {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container--flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header {
+  position: relative;
+  background-color: #000;
+  padding: 40px 0;
+} 
+
+.header__link {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 25px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: #Fff;
+  color: #2c2c2c;
+  transition: .2s; 
+}
+
+.header__link:hover {
+  background-color:#000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.header__search {
+  background-color: #000;
+  color: #fff;
+  max-width: 500px;
+  width: 100%;
+  padding: 15px 25px;
+  outline: none;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fff;
+}
+
+.product {
+  width: 250px;
+  background-color: #f5f5f5; 
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product * + * {
+  margin: 10px 0;
+}
+
+.product__bio {
+  padding: 15px 15px 5px;
+}
+
+.product__btn-buy {
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: #2c2c2c;
+  color: #fff;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 25px 0 0;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.product__btn-buy:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.cart {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 400px;
+  background-color: #FFFAFA;
+}
+
+.cart__item {
+  width: 100%;
+  padding: 10px;
+  align-items: center;
+}
+
+.cart__item + .cart__item {
+  margin-top: 5px;
+}
+
+.cart__item * + * {
+  margin: 0 15px;
+}
+
+.cart img {
+  width: 100px;
+}
+
+.cart__btn {
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.cart__btn:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.hidden {
+  display: none;
+}
