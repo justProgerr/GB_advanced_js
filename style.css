@@ -104,6 +104,7 @@ main {
   right: 0;
   min-width: 400px;
   background-color: #FFFAFA;
+  padding: 10px 5px;
 }
 
 .cart__item {
@@ -142,6 +143,17 @@ main {
   background-color: #fff;
   color: #000;
   border-color: #000;
+}
+
+.cart__total {
+  text-align: right;
+  margin: 20px 40px;
+  font-weight: bold;
+}
+
+.cart__empty {
+  font-size: 20px;
+  padding: 20px;
 }
 
 .hidden {

@@ -6,24 +6,66 @@
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <header class="header">
-      <div class="container container--flex">
-         <a href="" class="header__link">Каталог</a>
-         <input type="search" class="header__search">
-         <a href="" class="header__link" id="cartShow">Корзина</a>
-      </div>
+   <div id="app">
+      <header class="header">
+         <div class="container container--flex">
+            <a href="" class="header__link">Каталог</a>
+            <input type="search" class="header__search" name="catalogSearch" id="catalogSearch" v-model="searchLine" @search="filter">
+            <a href="#" class="header__link" id="cartShow" @click="showCart">Корзина</a>
+         </div>
 
-      <div class="cart hidden">
-         <ul class="cart__list">
-            
+         <div class="cart hidden">
+            <p class="cart__empty" v-if="cartSum === 0">В корзине ничего нет.</p>
+            <div class="cart__body" v-else>
+               <ul class="cart__list">
+                  <li class="cart__item product container--flex" v-for="product of cartProducts" :data-id="product.id_product">
+                     <div class="product__img">
+                     <img :src="img" alt="no photo">
+                     </div>
+                     <h3 class="product__title">{{product.product_name}}</h3>
+                     <p class="product__price">Цена за шт.: {{product.price}} руб.</p>
+                     <p class="product__quantity">Кол-во: {{product.quantity}}</p>
+                     <button class="cart__btn product__add"
+                        :data-id="product.id_product"
+                        :data-price="product.price" 
+                        @click="addProduct">+</button>
+                     <button class="cart__btn product__rem"
+                        :data-id="product.id_product"
+                        :data-price="product.price" 
+                        @click="remProduct">-</button>
+                     <span> = </span>
+                     <p class="product__price-total"> {{product.price * product.quantity}} руб</p>
+                  </li>
+               </ul>
+               <div class="cart__total">
+                  Всего товаров в корзине: {{cartCount}} <br>
+                  Итоговая сумма: {{cartSum}} руб
+               </div>
+            </div>
+         </div>
+      </header>
+      <main>
+         <ul class="catalog container container--flex">
+            <li class="catalog__item product" v-for="product of catalogProducts" :data-id="product.id_product">
+               <div class="product__img">
+               <img :src="img" alt="no photo">
+               </div>
+
+               <div class="product__bio">
+               <h3 class="product__title">{{product.product_name}}</h3>
+               <p class="product__price">Цена: {{product.price}} руб</p>
+               <button class="product__btn-buy" 
+                   :data-id="product.id_product" 
+                   :data-name="product.product_name"
+                   :data-price="product.price"
+                   @click="addProduct">купить</button>
+               </div>
+           </li>
          </ul>
-      </div>
-   </header>
-   <main>
-      <ul class="catalog container container--flex">
-         
-      </ul>
-   </main>
+      </main>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
    <script src="myJs.js"></script>
 </body>
 </html>
